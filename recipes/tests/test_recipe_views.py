@@ -1,13 +1,13 @@
 """ Testa as Views de recipes """
 
+from unittest import skip
 from django.urls import reverse, resolve
 from recipes.tests.test_recipe_base import RecipeTestBase
 from .. import views
-from unittest import skip
 
 
 class RecipeViewTest(RecipeTestBase):
-    """Testa se as urls de recipes estão apontando para as view corretas"""
+    """Testa aspectos importantes para as view"""
 
     # -=--=-=--=-=--=-=--= Home View -=--=-=--=-=--=-=--=-=--=-=--=
     def test_recipes_home_view_fuctions_is_correct(self):
@@ -27,6 +27,14 @@ class RecipeViewTest(RecipeTestBase):
 
     def test_recipes_home_template_shows_no_recipe_found_if_no_recipe(self):
         """Testa o caso de não haver receitas na pagina de home"""
+        response = self.client.get(reverse("recipes:home"))
+        self.assertIn(
+            "<h1> No Recipes found here :) </h1>", response.content.decode("utf-8")
+        )
+
+    def test_recipes_home_template_dont_load_recipes_not_published(self):
+        """Testa se a receita não marcada com is_pub ira ser renderizada"""
+        self.make_recipe(is_published=False)
         response = self.client.get(reverse("recipes:home"))
         self.assertIn(
             "<h1> No Recipes found here :) </h1>", response.content.decode("utf-8")
@@ -64,6 +72,14 @@ class RecipeViewTest(RecipeTestBase):
 
         self.assertIn(needed_title, content)
 
+    def test_recipes_recipe_template_dont_load_recipes_not_published(self):
+        """Testa se a receita não marcada com is_pub ira ser renderizada"""
+        recipe = self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse("recipes:recipe", kwargs={"recipe_id": recipe.id})
+        )
+        self.assertEqual(response.status_code, 404)
+
     # -=--=-=--=-=--=-=--= Category View -=--=-=--=-=--=-=--=-=--=-=--=
     def test_recipes_category_view_fuctions_is_correct(self):
         """Vejo se a url '/' e direcionada para a função views.home"""
@@ -87,6 +103,14 @@ class RecipeViewTest(RecipeTestBase):
         content = response.content.decode("utf-8")
 
         self.assertIn(needed_title, content)
+
+    def test_recipes_category_template_dont_load_recipes_not_published(self):
+        """Testa se a receita não marcada com is_pub ira ser renderizada"""
+        recipe = self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse("recipes:category", kwargs={"category_id": recipe.category.id})
+        )
+        self.assertEqual(response.status_code, 404)
 
     # -=--=-=--=-=--=-=--= Others -=--=-=--=-=--=-=--=-=--=-=--=
     @skip("WIP")

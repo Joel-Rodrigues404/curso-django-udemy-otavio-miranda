@@ -23,9 +23,9 @@ def category(request, category_id):
     #     raise Http404('Not Found :)')
     #     return HttpResponse(content='Not Found', status=404)
     recipes = get_list_or_404(
-        Recipe.objects.filter(
-            category__id=category_id, is_published=True
-        ).order_by("-id")
+        Recipe.objects.filter(category__id=category_id, is_published=True).order_by(
+            "-id"
+        )
     )
 
     context = {

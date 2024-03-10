@@ -6,7 +6,7 @@ class RecipeTestBase(TestCase):
     def setUp(self) -> None:  # pylint: disable=W0246
         return super().setUp()
 
-    def make_category(self, name="name_categoru_1"):
+    def make_category(self, name="name_categoru_1") -> Category:
         return Category.objects.create(name=name)
 
     def make_author(
@@ -39,7 +39,7 @@ class RecipeTestBase(TestCase):
         servings_unit="servings_unit_recipe1",
         preparation_steps="preparation_steps_recipe1",
         preparation_steps_is_html=False,
-        is_published=True
+        is_published=True,
     ) -> Recipe:
 
         if category_data is None:
