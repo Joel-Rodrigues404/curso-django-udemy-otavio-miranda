@@ -97,9 +97,7 @@ class RecipeViewTest(RecipeTestBase):
         """Testa se o conteudo desejado e renderizado na aplicação"""
         needed_title = "This is a category test"
         self.make_recipe(title=needed_title)
-        response = self.client.get(
-            reverse("recipes:category", kwargs={"category_id": 1})
-        )
+        response = self.client.get(reverse("recipes:category", args=(1,)))
         content = response.content.decode("utf-8")
 
         self.assertIn(needed_title, content)
