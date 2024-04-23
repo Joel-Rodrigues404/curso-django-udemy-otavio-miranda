@@ -1,6 +1,6 @@
 from django.test import TestCase
 from ..models import Recipe, Category, User
-
+import uuid
 
 class RecipeTestBase(TestCase):
     def setUp(self) -> None:  # pylint: disable=W0246
@@ -32,7 +32,7 @@ class RecipeTestBase(TestCase):
         author_data=None,
         title="title_recipe1",
         description="description_recipe1",
-        slug="slug-recipe1",
+        slug=f"slug-recipe1-{str(uuid.uuid4())}",
         preparation_time=1,
         preparation_time_unit="preparation_time_unit_recipe1",
         servings=1,
