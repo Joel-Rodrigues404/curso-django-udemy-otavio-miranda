@@ -1,3 +1,7 @@
+"""
+URL configuration for app recipes.
+"""
+
 from django.urls import path
 from . import views
 

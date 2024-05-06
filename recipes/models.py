@@ -1,7 +1,9 @@
-from django.db import models
-from django.contrib.auth.models import User
+"""
+configuration database for app recipes.
+"""
 
-# Create your models here.
+from django.contrib.auth.models import User
+from django.db import models
 
 
 class Category(models.Model):

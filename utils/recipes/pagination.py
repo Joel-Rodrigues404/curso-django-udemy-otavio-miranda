@@ -1,5 +1,5 @@
-import math
 from django.core.paginator import Paginator
+import math
 
 
 def make_pagination_range(page_range, qty_pages, current_page):
