@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from django.contrib.messages import constants
 from pathlib import Path
 import os
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Project apps
     "recipes.apps.RecipesConfig",
+    "authors.apps.AuthorsConfig",
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# MESSAGES
+
+MESSAGE_TAGS = {
+    constants.DEBUG: "message-debug",
+    constants.SUCCESS: "message-success",
+    constants.INFO: "message-info",
+    constants.WARNING: "message-warning",
+    constants.ERROR: "message-error",
+}

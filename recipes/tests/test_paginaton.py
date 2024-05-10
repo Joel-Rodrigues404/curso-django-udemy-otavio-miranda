@@ -1,5 +1,7 @@
-from django.urls import reverse
 from recipes.tests.test_recipe_base import RecipeTestBase
+from django.urls import reverse
+from unittest.mock import patch
+import os
 
 
 class PaginationTest(RecipeTestBase):
@@ -14,10 +16,11 @@ class PaginationTest(RecipeTestBase):
                 author_data={"username": f"username-{i}"},
             )
 
-        search_url = reverse("recipes:home")
-        response = self.client.get(search_url)
+        with patch("recipes.views.PER_PAGE", new=9):
+            search_url = reverse("recipes:home")
+            response = self.client.get(search_url)
 
-        expected_objects_in_page = 9
-        objects_in_page = len(response.context["recipes"].object_list)
+            expected_objects_in_page = int(os.environ.get("PER_PAGE", 6))
+            objects_in_page = len(response.context["recipes"].object_list)
 
-        self.assertEqual(expected_objects_in_page, objects_in_page)
+            self.assertEqual(expected_objects_in_page, objects_in_page)

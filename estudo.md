@@ -17,3 +17,5 @@
 ### category_name = getattr(getattr(recipes.first(), 'category', None), 'name', 'Not Found')
 
 #### tenta pegar o que ta tentando pegar o primeiro recipe se pegar pega category se não retorna none se pegar tenta pegar name se não retorna not found
+
+### Permanecia de login com cookies "request.session['chave']"
