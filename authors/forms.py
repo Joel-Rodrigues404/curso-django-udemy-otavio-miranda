@@ -39,6 +39,39 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeat your password')
 
+    username = forms.CharField(
+        label='Username',
+        error_messages={
+            "required": "This field must be empty.",
+            "min_length": 'Username must have at least 4 characters',
+            "max_length": 'Username must have less than 150 characters',
+        },
+        help_text=(
+            'Username must have letters, numbers or one of those @.+-_. '
+            'The length should be between 4 and 150 characters'
+        ),
+        min_length=4, max_length=150,
+    )
+
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name'},
+        required=True,
+        label='First name'
+    )
+
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        required=True,
+        label='Last name'
+    )
+
+    email = forms.EmailField(
+        required=True,
+        label='E-mail',
+        error_messages={'required': 'The E-mail is required'},
+        help_text='The E-mail must be valid.'
+    )
+
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
@@ -50,11 +83,16 @@ class RegisterForm(forms.ModelForm):
             "one lower case letter and one number. The length should be "
             "at 8 characters."
         ),
-        validators=[strong_password]
+        validators=[strong_password],
+        label='Password'
     )
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
+        label='Password2',
+        error_messages={
+            "required": "Please, reapet your password"
+        },
     )
 
     class Meta:
@@ -67,46 +105,17 @@ class RegisterForm(forms.ModelForm):
             "password",
         ]
 
-        labels = {
-            "first_name": "First name",
-            "last_name": "Last name",
-            "username": "Username",
-            "email": "E-mail",
-            "password": "Password",
-        }
+        # labels = {
+        #     "first_name": "First name",
+        #     "last_name": "Last name",
+        #     "username": "Username",
+        #     "email": "E-mail",
+        # }
 
-        help_texts = {
-            "email": "The E-mail must be valid.",
-        }
-
-        error_messages = {
-            "username": {
-                "required": "This field must be empty."
-            }}
-
-    def clean_password(self):
-        data = self.cleaned_data.get('password')
-
-        if 'atencao' in data:
-            raise ValidationError(
-                'Não Digite %(value)s no campo password',
-                code='invalid',
-                params={'value': '"atecao"'},
-            )
-
-        return data
-
-    def clean_first_name(self):
-        data = self.cleaned_data.get('first_name')
-
-        if 'atencao' in data:
-            raise ValidationError(
-                'Não Digite %(qv)s no campo fist name',
-                code='invalid',
-                params={'qv': '"atecao"'},
-            )
-
-        return data
+        # error_messages = {
+        #     "username": {
+        #         "required": "This field must be empty."
+        #     }}
 
     def clean(self):
         cleaned_data = super().clean()
