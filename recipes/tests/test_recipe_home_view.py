@@ -27,7 +27,8 @@ class RecipeHomeViewTest(RecipeTestBase):
         """Testa o caso de não haver receitas na pagina de home"""
         response = self.client.get(reverse("recipes:home"))
         self.assertIn(
-            "<h1> No Recipes found here :) </h1>", response.content.decode("utf-8")
+            "<h1> No Recipes found here :) </h1>", response.content.decode(
+                "utf-8")
         )
 
     def test_recipes_home_template_dont_load_recipes_not_published(self):
@@ -35,7 +36,8 @@ class RecipeHomeViewTest(RecipeTestBase):
         self.make_recipe(is_published=False)
         response = self.client.get(reverse("recipes:home"))
         self.assertIn(
-            "<h1> No Recipes found here :) </h1>", response.content.decode("utf-8")
+            "<h1> No Recipes found here :) </h1>", response.content.decode(
+                "utf-8")
         )
 
     def test_recipes_home_template_loads_recipes(self):
@@ -50,12 +52,7 @@ class RecipeHomeViewTest(RecipeTestBase):
 
     def test_recipe_home_is_paginated(self):
         """Testa se a paginação esta correta"""
-        for i, x in enumerate(range(10)):
-            self.make_recipe(
-                title=f"title{i}",
-                slug=f"slug-{i}",
-                author_data={"username": f"username-{i}"},
-            )
+        self.make_recipe_in_batch(10)
 
         with patch("recipes.views.PER_PAGE", new=3):
             search_url = reverse("recipes:home")
@@ -71,12 +68,9 @@ class RecipeHomeViewTest(RecipeTestBase):
             self.assertEqual(len(paginator.get_page(4)), 1)
 
     def test_invalid_page_query_uses_one(self):
-        for i, x in enumerate(range(10)):
-            self.make_recipe(
-                title=f"title{i}",
-                slug=f"slug-{i}",
-                author_data={"username": f"username-{i}"},
-            )
+        """Testa se a paginação esta correta"""
+        self.make_recipe_in_batch(10)
+
         with patch('recipes.views.PER_PAGE', new=3):
             response = self.client.get(reverse('recipes:home') + '?page=1A')
             self.assertEqual(

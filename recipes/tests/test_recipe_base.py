@@ -2,11 +2,9 @@ from django.test import TestCase
 from ..models import Recipe, Category, User
 import uuid
 
-class RecipeTestBase(TestCase):
-    def setUp(self) -> None:  # pylint: disable=W0246
-        return super().setUp()
 
-    def make_category(self, name="name_categoru_1") -> Category:
+class RecipeMixin:
+    def make_category(self, name="name_category_1") -> Category:
         return Category.objects.create(name=name)
 
     def make_author(
@@ -61,3 +59,17 @@ class RecipeTestBase(TestCase):
             preparation_steps_is_html=preparation_steps_is_html,
             is_published=is_published,
         )
+
+    def make_recipe_in_batch(self, qtd=10):
+        recipes = []
+        for i, x in enumerate(range(qtd)):
+            recipe = self.make_recipe(
+                title=f"Recipe Title {i}", slug=f"slug-{i}", author_data={"username": f"username-{i}"},  # noqa
+            )
+            recipes.append(recipe)
+        return recipes
+
+
+class RecipeTestBase(TestCase, RecipeMixin):
+    def setUp(self) -> None:  # pylint: disable=W0246
+        return super().setUp()
