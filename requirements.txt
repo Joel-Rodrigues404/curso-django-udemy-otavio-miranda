@@ -3,7 +3,7 @@ attrs==25.1.0
 autopep8==2.0.4
 certifi==2025.1.31
 colorama==0.4.6
-coverage==7.4.4
+coverage==7.7.0
 distlib==0.3.8
 Django==5.0
 docopt==0.6.2
@@ -22,6 +22,7 @@ pluggy==1.4.0
 pycodestyle==2.11.1
 PySocks==1.7.1
 pytest==8.0.2
+pytest-cov==6.0.0
 pytest-django==4.8.0
 pytest-watch==4.2.0
 python-dateutil==2.8.2

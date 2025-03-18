@@ -54,16 +54,14 @@ def category(request, category_id):
 def recipe(request, recipe_id):
     """Trata da visualização de detalhes de uma recipe"""
 
-    get_recipe = get_object_or_404(
+    recipe = get_object_or_404(
         Recipe, id=recipe_id, is_published=True
     )
 
-    context = {
-        "recipe": get_recipe,
-        "is_detail_page": True,
-    }
-
-    return render(request, "recipes/pages/recipe-view.html", context=context)
+    return render(request, 'recipes/pages/recipe-view.html', context={
+        'recipe': recipe,
+        'is_detail_page': True,
+    })
 
 
 def search(request):
@@ -75,7 +73,8 @@ def search(request):
         raise Http404()
 
     recipes = Recipe.objects.filter(
-        Q(Q(title__icontains=search_term) | Q(description__icontains=search_term),),
+        Q(Q(title__icontains=search_term) | Q(
+            description__icontains=search_term),),
         is_published=True,
     ).order_by("-id")
 
