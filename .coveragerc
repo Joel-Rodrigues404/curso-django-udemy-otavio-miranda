@@ -1,14 +1,9 @@
 [run]
 branch = True
 omit =
+    **/tests/*
     venv/*
     manage.py
     __localcode/*
     utils/browser.py
     utils/recipes/factory.py
-    */tests/*_test.py
-    */tests/*test_*.py
-    */tests/*tests.py
-    */tests/*test.py
-    **/*test*.py
-    tests/*/*test*.py
